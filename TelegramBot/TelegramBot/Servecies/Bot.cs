@@ -7,40 +7,41 @@ using TelegramBot.Models;
 
 namespace TelegramBot.Servecies
 {
-    public class Bot
+  public class Bot
+  {
+    private readonly AppSettings _settings;
+    private readonly ILogger<Bot> _logger;
+    private readonly BotContext _botContext;
+    private TelegramBotClient client;
+
+    public List<Command> GetCommands()
     {
-        private readonly AppSettings _settings;
-        private readonly ILogger<Bot> _logger;
-        private readonly BotContext _botContext;
-        private TelegramBotClient client;
-
-        public  List<Command> GetCommands()
-        {
-            return new List<Command>
-            {
-              new StartCommand(_botContext)
-            };
-        }
-
-        public Bot(AppSettings settings, ILogger<Bot> logger, BotContext botContext)
-        {
-            _settings = settings;
-            _logger = logger;
-            _botContext = botContext;
-        }
-
-        public async Task<TelegramBotClient> Get()
-        {
-            if (client != null)
-            {
-                return client;
-            }
-            client = new TelegramBotClient(_settings.Key);
-            _logger.LogInformation("Get Bot");
-            var hook = string.Format(_settings.Url, "api/message/update");
-            await client.SetWebhookAsync(hook);
-
-            return client;
-        }
+      return new List<Command>
+      {
+        new StartCommand(_botContext)
+      };
     }
+
+    public Bot(AppSettings settings, ILogger<Bot> logger, BotContext botContext)
+    {
+      _settings = settings;
+      _logger = logger;
+      _botContext = botContext;
+    }
+
+    public async Task<TelegramBotClient> Get()
+    {
+      if (client != null)
+      {
+        return client;
+      }
+
+      client = new TelegramBotClient(_settings.Key);
+      _logger.LogInformation("Get Bot");
+      var hook = string.Format(_settings.Url, "api/message/update");
+      await client.SetWebhookAsync(hook);
+
+      return client;
+    }
+  }
 }

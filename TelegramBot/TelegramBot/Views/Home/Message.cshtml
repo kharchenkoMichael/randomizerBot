@@ -11,15 +11,13 @@
     <h3>Сообщения</h3>
     <table>
         <tr>
-            <td>Id</td>
-            <td>Creator</td>
+            <td>CreatorId</td>
             <td>Name</td>
         </tr>
         @foreach (var user in Model)
         {
         <tr>
-            <td>@user.Id</td>
-            <td>@user.Creator</td>
+            <td>@user.CreatorId</td>
             <td>@user.Name</td>
         </tr>
         }
