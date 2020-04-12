@@ -1,0 +1,29 @@
+﻿@model System.Collections.Generic.List<TelegramBot.Models.Group>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Телеграм Бот</title>
+</head>
+<body>
+<div>
+    <h3>Сообщения</h3>
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>Creator</td>
+            <td>Name</td>
+        </tr>
+        @foreach (var user in Model)
+        {
+        <tr>
+            <td>@user.Id</td>
+            <td>@user.Creator</td>
+            <td>@user.Name</td>
+        </tr>
+        }
+    </table>
+</div>
+</body>
+</html>
