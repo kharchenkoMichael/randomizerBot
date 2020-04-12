@@ -18,7 +18,15 @@ namespace TelegramBot.Commands
 
     public override void Execute(Message message, TelegramBotClient client)
     {
-      var name = message.Text.Replace(Name, "").ToLower().Substring(1);
+      var name = message.Text.Replace(Name, "").ToLower();
+
+      if (string.IsNullOrWhiteSpace(name))
+      {
+        client.SendTextMessageAsync(message.Chat.Id, $"Нельзя создать группу без имени");
+        return;
+      }
+
+      name = name.Trim();
 
       if (_botContext.Groups.Any(item => item.Name == name))
       {

@@ -18,7 +18,16 @@ namespace TelegramBot.Servecies
     {
       return new List<Command>
       {
-        new StartCommand(_botContext)
+        new StartCommand(_botContext),
+        new AddToGroupCommand(_botContext),
+        new CreateGroupCommand(_botContext),
+        new LeaveGroupCommand(_botContext),
+        new RandomFromGroupCommand(_botContext),
+        new RemoveGroupCommand(_botContext),
+        new ShowCreatedGroupsCommand(_botContext),
+        new ShowGroupsCommand(_botContext),
+        new ShowMyGroupsCommand(_botContext),
+        new ShowUsersInGroupCommand(_botContext)
       };
     }
 

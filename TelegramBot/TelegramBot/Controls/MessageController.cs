@@ -9,6 +9,7 @@ using TelegramBot.Commands;
 using TelegramBot.Models;
 using TelegramBot.Servecies;
 using Message = Telegram.Bot.Types.Message;
+using User = TelegramBot.Models.User;
 
 namespace TelegramBot.Controls
 {
@@ -38,27 +39,23 @@ namespace TelegramBot.Controls
 
     private async Task UpdateMessage(Message message)
     {
+      var client = await _bot.Get();
       _logger.LogInformation("{0}: {1} - {2}", message.From.FirstName, message.Text, DateTime.Now);
       var commands = _bot.GetCommands();
       var userId = message.From.Id;
-      var client = await _bot.Get();
 
       var user = _botContext.Users.FirstOrDefault(item => item.Id == userId);
 
-      if (user == null)
-        new StartCommand(_botContext).Execute(message, client);
-      else
-      {
-        user.Update(message);
-        foreach (var command in commands)
+      if (_botContext.Users.All(item => item.Id != userId))
+        _botContext.Users.Add(new User
         {
-          if (!command.Contains(message.Text))
-            continue;
+          ChatId = message.Chat.Id,
+          Name = message.From.Username,
+          FirstName = message.From.FirstName,
+          Id = message.From.Id,
+        });
 
-          command.Execute(message, client);
-          break;
-        }
-      }
+      commands.FirstOrDefault(command => command.Contains(message.Text))?.Execute(message, client);
     }
   }
 }

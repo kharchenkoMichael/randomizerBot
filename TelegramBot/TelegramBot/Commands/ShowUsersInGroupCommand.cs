@@ -15,12 +15,20 @@ namespace TelegramBot.Commands
       _botContext = botContext;
     }
 
-    public override string Name { get; } = "/show_users_in_group";
+    public override string Name { get; } = "/show_in_group";
 
     public override void Execute(Message message, TelegramBotClient client)
     {
+      var name = message.Text.Replace(Name, "").ToLower();
 
-      var name = message.Text.Replace(Name, "").ToLower().Substring(1);
+      if (string.IsNullOrWhiteSpace(name))
+      {
+        client.SendTextMessageAsync(message.Chat.Id, $"Нельзя посмотреть участников группы без имени");
+        return;
+      }
+
+      name = name.Trim();
+
       var group = _botContext.Groups.FirstOrDefault(item => item.Name == name);
 
       if (group == null)
@@ -29,11 +37,13 @@ namespace TelegramBot.Commands
         return;
       }
 
-      var builder = new StringBuilder();
-      builder.AppendLine("Вы состоите в таких группах:");
+      var userGroups = _botContext.UserGroups.Where(item => item.Group == name).ToList();
 
-      foreach (var userGroup in _botContext.UserGroups.Where(item => item.Group == name))
-        builder.AppendLine($"{_botContext.Users.FirstOrDefault(item => item.Id == userGroup.UserId)?.Name}");
+      var builder = new StringBuilder();
+      builder.AppendLine($"В группе {name} состоят {userGroups.Count} человек:");
+
+      foreach (var user in userGroups.Select(userGroup => _botContext.Users.FirstOrDefault(item => item.Id == userGroup.UserId)))
+        builder.AppendLine($"{user?.FirstName} @{user?.Name}");
 
       client.SendTextMessageAsync(message.Chat.Id, builder.ToString());
     }

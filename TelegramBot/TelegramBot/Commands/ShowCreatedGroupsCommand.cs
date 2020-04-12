@@ -26,7 +26,10 @@ namespace TelegramBot.Commands
       builder.AppendLine("Вы создали такие группы:");
 
       foreach (var botContextGroup in _botContext.Groups.Where(item => item.CreatorId == userId))
-        builder.AppendLine($"{botContextGroup.Name}");
+      {
+        var user = _botContext.Users.FirstOrDefault(item => item.Id == botContextGroup.CreatorId);
+        builder.AppendLine($"{botContextGroup.Name} Создатель {user?.FirstName} @{user?.Name}");
+      }
 
       client.SendTextMessageAsync(message.Chat.Id, builder.ToString());
     }

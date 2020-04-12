@@ -18,7 +18,16 @@ namespace TelegramBot.Commands
 
     public override void Execute(Message message, TelegramBotClient client)
     {
-      var name = message.Text.Replace(Name, "").ToLower().Substring(1);
+      var name = message.Text.Replace(Name, "").ToLower();
+
+      if (string.IsNullOrWhiteSpace(name))
+      {
+        client.SendTextMessageAsync(message.Chat.Id, $"Нельзя выбрать из группы без имени");
+        return;
+      }
+
+      name = name.Trim();
+
       var group = _botContext.Groups.FirstOrDefault(item => item.Name == name);
 
       if (group == null)
@@ -31,7 +40,7 @@ namespace TelegramBot.Commands
 
      var user = _botContext.Users.FirstOrDefault(item => item.Id == users[_botContext.Random.Next(users.Count)]);
 
-      client.SendTextMessageAsync(message.Chat.Id, $"Рандом выбрал {user.Name} {user.FirstName}");
+      client.SendTextMessageAsync(message.Chat.Id, $"Рандом выбрал {user.FirstName} @{user.Name}");
     }
   }
 }

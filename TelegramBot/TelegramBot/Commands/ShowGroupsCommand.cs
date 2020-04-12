@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 using Telegram.Bot;
 using TelegramBot.Models;
 using Message = Telegram.Bot.Types.Message;
@@ -21,9 +22,12 @@ namespace TelegramBot.Commands
       var builder = new StringBuilder();
 
       foreach (var botContextGroup in _botContext.Groups)
-        builder.AppendLine($"{botContextGroup.Name}");
+      {
+        var user = _botContext.Users.FirstOrDefault(item => item.Id == botContextGroup.CreatorId);
+        builder.AppendLine($"{botContextGroup.Name} Создатель {user?.FirstName} @{user?.Name}");
+      }
 
-      client.SendTextMessageAsync(message.Chat.Id, builder.ToString());
+      client.SendTextMessageAsync(message.Chat.Id, string.IsNullOrEmpty(builder.ToString())?"нет групп": builder.ToString());
     }
   }
 }
