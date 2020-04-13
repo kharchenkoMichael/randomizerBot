@@ -5,11 +5,11 @@ using Message = Telegram.Bot.Types.Message;
 
 namespace TelegramBot.Commands
 {
-  public class ShowCommand : Command
+  public class ShowUsersCommand : Command
   {
     private readonly BotContext _botContext;
 
-    public ShowCommand(BotContext botContext)
+    public ShowUsersCommand(BotContext botContext)
     {
       _botContext = botContext;
     }

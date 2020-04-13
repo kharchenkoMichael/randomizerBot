@@ -22,7 +22,7 @@ namespace TelegramBot.Servecies
         new AddCommand(_botContext),
         new LeaveCommand(_botContext),
         new RandomCommand(_botContext),
-        new ShowCommand(_botContext)
+        new ShowUsersCommand(_botContext),
       };
     }
 

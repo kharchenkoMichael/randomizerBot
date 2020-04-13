@@ -20,7 +20,7 @@ namespace TelegramBot.Commands
     {
       var userId = message.From.Id;
 
-      var user = _botContext.Users.FirstOrDefault(item => item.Id != userId);
+      var user = _botContext.Users.FirstOrDefault(item => item.Id == userId);
       if (user != null)
       {
         _botContext.Users.Remove(user);
