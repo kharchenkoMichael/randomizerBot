@@ -35,6 +35,7 @@ namespace TelegramBot
         app.UseDeveloperExceptionPage();
       }
 
+
       bot.Get();
       app.UseMvcWithDefaultRoute();
     }
