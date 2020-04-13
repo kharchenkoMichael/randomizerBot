@@ -61,12 +61,7 @@ namespace TelegramBot.Controls
     {
       return View(_botContext.Users);
     }
-
-    public IActionResult Message()
-    {
-      return View(_botContext.Groups);
-    }
-
+    
     public string Settings()
     {
       var builder = new StringBuilder();

@@ -19,9 +19,6 @@ namespace TelegramBot.Models
     public Random Random = new Random();
 
     public List<User> Users { get; set; } = new List<User>();
-    public List<Group> Groups { get; set; } = new List<Group>();
-
-    public List<UserGroup> UserGroups { get; set; } = new List<UserGroup>();
 
     public User OwnerUser { get; set; }
 
@@ -33,8 +30,6 @@ namespace TelegramBot.Models
       {
         BotContext m = JsonConvert.DeserializeObject<BotContext>(reader.ReadToEnd());
         Users = m.Users;
-        Groups = m.Groups;
-        UserGroups = m.UserGroups;
         OwnerUser = m.OwnerUser;
       }
     }

@@ -45,16 +45,7 @@ namespace TelegramBot.Controls
       var userId = message.From.Id;
 
       var user = _botContext.Users.FirstOrDefault(item => item.Id == userId);
-
-      if (_botContext.Users.All(item => item.Id != userId))
-        _botContext.Users.Add(new User
-        {
-          ChatId = message.Chat.Id,
-          Name = message.From.Username,
-          FirstName = message.From.FirstName,
-          Id = message.From.Id,
-        });
-
+      
       commands.FirstOrDefault(command => command.Contains(message.Text))?.Execute(message, client);
     }
   }
