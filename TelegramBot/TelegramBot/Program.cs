@@ -15,11 +15,6 @@ namespace TelegramBot
     public static IWebHost BuildWebHost(string[] args)
     {
       return WebHost.CreateDefaultBuilder(args)
-        .ConfigureLogging((hostingContext, logging) =>
-        {
-          logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-          logging.AddFile();
-        })
         .UseStartup<Startup>()
         .Build();
     }

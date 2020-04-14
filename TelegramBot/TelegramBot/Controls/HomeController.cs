@@ -3,18 +3,18 @@ using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using TelegramBot.Models;
+using TelegramBot.Servecies;
 
 namespace TelegramBot.Controls
 {
   public class HomeController : Controller
   {
-    private readonly ILogger<HomeController> _logger;
     private IHostingEnvironment _appEnvironment;
     private readonly BotContext _botContext;
+    private readonly Logger _logger;
 
-    public HomeController(ILogger<HomeController> logger, IHostingEnvironment environment, BotContext botContext)
+    public HomeController(IHostingEnvironment environment, BotContext botContext, Logger logger)
     {
       _appEnvironment = environment;
       _botContext = botContext;
@@ -23,8 +23,7 @@ namespace TelegramBot.Controls
 
     public IActionResult Index()
     {
-      //_botContext.UpdateFromJson();
-      _logger.LogInformation("Home Controller");
+      _logger.Log("Home Index");
       return View();
     }
 
@@ -61,7 +60,17 @@ namespace TelegramBot.Controls
     {
       return View(_botContext.Users);
     }
-    
+
+    public string BotContext()
+    {
+      return _botContext.GetJson();
+    }
+
+    public string Logs()
+    {
+      return _logger.GetLogs();
+    }
+
     public string Settings()
     {
       var builder = new StringBuilder();

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot.Types;
 using TelegramBot.Commands;
@@ -16,13 +15,11 @@ namespace TelegramBot.Controls
   public class MessageController : Controller
   {
     private readonly Bot _bot;
-    private readonly ILogger<MessageController> _logger;
     private readonly BotContext _botContext;
 
     public MessageController(Bot bot, ILogger<MessageController> logger, BotContext botContext)
     {
       _bot = bot;
-      _logger = logger;
       _botContext = botContext;
     }
 
@@ -40,7 +37,6 @@ namespace TelegramBot.Controls
     private async Task UpdateMessage(Message message)
     {
       var client = await _bot.Get();
-      _logger.LogInformation("{0}: {1} - {2}", message.From.FirstName, message.Text, DateTime.Now);
       var commands = _bot.GetCommands();
       var userId = message.From.Id;
 

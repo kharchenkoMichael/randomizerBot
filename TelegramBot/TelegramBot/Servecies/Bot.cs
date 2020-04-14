@@ -10,38 +10,35 @@ namespace TelegramBot.Servecies
   public class Bot
   {
     private readonly AppSettings _settings;
-    private readonly ILogger<Bot> _logger;
     private readonly BotContext _botContext;
     private TelegramBotClient client;
+    private Logger _logger;
 
     public List<Command> GetCommands()
     {
       return new List<Command>
       {
-        new StartCommand(_botContext),
-        new AddCommand(_botContext),
-        new LeaveCommand(_botContext),
-        new RandomCommand(_botContext),
-        new ShowUsersCommand(_botContext),
+        new StartCommand(_botContext, _logger),
+        new AddCommand(_botContext, _logger),
+        new LeaveCommand(_botContext, _logger),
+        new RandomCommand(_botContext, _logger),
+        new ShowUsersCommand(_botContext, _logger),
       };
     }
 
-    public Bot(AppSettings settings, ILogger<Bot> logger, BotContext botContext)
+    public Bot(AppSettings settings, BotContext botContext, Logger logger)
     {
       _settings = settings;
-      _logger = logger;
       _botContext = botContext;
+      _logger = logger;
     }
 
     public async Task<TelegramBotClient> Get()
     {
       if (client != null)
-      {
         return client;
-      }
 
       client = new TelegramBotClient(_settings.Key);
-      _logger.LogInformation("Get Bot");
       var hook = string.Format(_settings.Url, "api/message/update");
       await client.SetWebhookAsync(hook);
 

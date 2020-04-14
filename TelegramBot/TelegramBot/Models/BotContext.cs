@@ -9,7 +9,7 @@ namespace TelegramBot.Models
   public class BotContext
   {
     private readonly IHostingEnvironment _appEnvironment;
-    private readonly string _filePath = "Logs/logs-0.txt";
+    private readonly string _filePath = "Logs/bot.json";
 
     public BotContext(IHostingEnvironment appEnvironment)
     {
@@ -26,12 +26,25 @@ namespace TelegramBot.Models
 
     public void UpdateFromJson()
     {
-      using (var reader = new StreamReader(Path.Combine(_appEnvironment.ContentRootPath, _filePath)))
+      var path = Path.Combine(_appEnvironment.ContentRootPath, _filePath);
+
+      if (!File.Exists(path))
+        return;
+
+      using (var reader = new StreamReader(path))
       {
         BotContext m = JsonConvert.DeserializeObject<BotContext>(reader.ReadToEnd());
         Users = m.Users;
         OwnerUser = m.OwnerUser;
       }
+    }
+
+    public string GetJson()
+    {
+      var path = Path.Combine(_appEnvironment.ContentRootPath, _filePath);
+
+      using (var reader = new StreamReader(path))
+        return reader.ReadToEnd();
     }
 
     public void WriteToJson()

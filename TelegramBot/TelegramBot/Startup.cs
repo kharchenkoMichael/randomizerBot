@@ -24,6 +24,7 @@ namespace TelegramBot
 
       services.AddMvc();
       services.AddSingleton<Bot>();
+      services.AddSingleton<Logger>();
       services.AddSingleton<AppSettings>();
     }
 
