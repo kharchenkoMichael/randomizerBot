@@ -43,6 +43,9 @@ namespace TelegramBot.Models
     {
       var path = Path.Combine(_appEnvironment.ContentRootPath, _filePath);
 
+      if (!File.Exists(path))
+        return string.Empty;
+
       using (var reader = new StreamReader(path))
         return reader.ReadToEnd();
     }
