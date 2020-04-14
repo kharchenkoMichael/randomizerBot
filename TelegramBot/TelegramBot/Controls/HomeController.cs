@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Hosting;
@@ -64,10 +65,10 @@ namespace TelegramBot.Controls
     {
       return _botContext.GetJson();
     }
-
-    public string Logs()
+    
+    public string Logs(int day)
     {
-      return _logger.GetLogs();
+      return _logger.GetLogs(DateTime.Today.AddDays(-day));
     }
 
     public string Settings()
