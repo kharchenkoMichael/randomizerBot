@@ -16,11 +16,13 @@ namespace TelegramBot.Controls
   {
     private readonly Bot _bot;
     private readonly BotContext _botContext;
+    private readonly Logger _logger;
 
-    public MessageController(Bot bot, ILogger<MessageController> logger, BotContext botContext)
+    public MessageController(Bot bot, Logger logger, BotContext botContext)
     {
       _bot = bot;
       _botContext = botContext;
+      _logger = logger;
     }
 
     [HttpPost]
@@ -36,6 +38,7 @@ namespace TelegramBot.Controls
 
     private async Task UpdateMessage(Message message)
     {
+      _logger.Log($"{DateTime.Now} {message.From.Id} {message.From.Username} {message.Text}");
       var client = await _bot.Get();
       var commands = _bot.GetCommands();
       var userId = message.From.Id;

@@ -23,7 +23,6 @@ namespace TelegramBot.Controls
 
     public IActionResult Index()
     {
-      _logger.Log("Home Index");
       return View();
     }
 
